@@ -15,6 +15,8 @@ initializePassport(
     
     )
 
+    router.use(passport.session())
+
 //Creating Users
 router.post("/user", async (req, res) => {
     if(!req.headers.authorization || req.headers.authorization !== process.env.AUTHORIZATION_KEY) {
@@ -68,9 +70,6 @@ router.post("/testing/user", async (req, res) => {
 })
 
 router.post("/testing/server", async (req, res) => {
-    if(!req.headers.authorization || req.headers.authorization !== process.env.AUTHORIZATION_KEY) {
-        return res.status(401)
-    }
     try{
         const id = Math.floor(Math.random()*1234567890)
     const Servers = new Server({
@@ -115,9 +114,6 @@ router.post("/server", async (req, res) => {
 })
 
 router.delete("/testing/server", (req, res) => {
-    if(!req.headers.authorization || req.headers.authorization !== process.env.AUTHORIZATION_KEY) {
-        return res.status(401)
-    }
     try{
         
     await Server.findOneAndDelete({id: req.body.id})
@@ -141,9 +137,6 @@ router.delete("/server", (req, res) => {
 })
 
 router.patch("/testing/server", (req, res) => {
-    if(!req.headers.authorization || req.headers.authorization !== process.env.AUTHORIZATION_KEY) {
-        return res.status(401)
-    }
     try{
         
     await Server.findOneAndUpdate({id: req.body.id}, {$set:{name:req.body.name, mongodb:req.body.mongodb}})
